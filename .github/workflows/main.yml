@@ -37,7 +37,7 @@ jobs:
         if: steps.cache-venv.outputs.cache-hit != 'true'
 
 
-      # Install all the app dependencies
+      # Install all the app dependenc
       - name: Install dependencies
         run: pip3 install -r requirements.txt
 
