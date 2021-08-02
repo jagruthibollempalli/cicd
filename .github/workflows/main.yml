@@ -27,20 +27,20 @@ jobs:
       # Step 4
       - name:  Setup Virtual env
         uses: actions/cache@v2
-        id: cache-venv
+        id: cache-project_env
         with:
-          path: venv
-          key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements*.txt') }}
+          path: project_env
+          key: ${{ runner.os }}-project_env-${{ hashFiles('**/requirements*.txt') }}
           restore-keys: |
-            ${{ runner.os }}-venv-
+            ${{ runner.os }}-project_env-
       # Step 5
       - name: Activate and Install Depencies into Virtual env
-        run: python -m venv venv && source venv/bin/activate &&
+        run: python -m venv project_env && source project_env/bin/activate &&
           pip3 install -r requirements.txt
-        if: steps.cache-venv.outputs.cache-hit != 'true'
+        if: steps.cache-project_env.outputs.cache-hit != 'true'
       # Step 6     
-      - name: Activate venv and Run Test        
-        run: . venv/bin/activate && pytest
+      - name: Activate project_env and Run Test        
+        run: . project_env/bin/activate && pytest
       
       # Step 7
       - name: Create Zipfile archive of Dependencies
