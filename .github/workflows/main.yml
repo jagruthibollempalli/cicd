@@ -35,7 +35,7 @@ jobs:
             ${{ runner.os }}-project_env-
       # Step 5
       - name: Activate and Install Depencies into Virtual env
-        run: python -m venv project_env && source project_env/bin/activate &&
+        run: python -m project_env project_env && source project_env/bin/activate &&
           pip3 install -r requirements.txt
         if: steps.cache-project_env.outputs.cache-hit != 'true'
       # Step 6     
