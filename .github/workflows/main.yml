@@ -1,4 +1,3 @@
-# This is a basic workflow to help you get started with Actions
 name: CI/CD Pipeline
 
 on:
@@ -25,17 +24,17 @@ jobs:
 
       - name:  Setup Virtual env
         uses: actions/cache@v2
-        id: cache-project_env
+        id: cache-venv
         with:
-          path: project_env
-          key: ${{ runner.os }}-project_env-${{ hashFiles('**/requirements*.txt') }}
+          path: venv
+          key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements*.txt') }}
           restore-keys: |
             ${{ runner.os }}-venv-
 
       - name: Activate and Install Depencies into Virtual env
-        run: python -m project_env project_env && source project_env/bin/activate &&
+        run: python -m venv venv && source venv/bin/activate &&
           pip3 install -r requirements.txt
-        if: steps.cache-project_env.outputs.cache-hit != 'true'
+        if: steps.cache-venv.outputs.cache-hit != 'true'
 
 
       # Install all the app dependencies
@@ -45,7 +44,7 @@ jobs:
 
       # Build the app and run tests
       - name: Build and Run Test
-        run: . project_env/bin/activate && pytest
+        run: . venv/bin/activate && pytest
 
       - name: Create Zipfile archive of Dependencies
         run: |
